@@ -1,0 +1,33 @@
+name: Run E2E Tests
+
+on: [pull_request]
+
+jobs:
+  run-e2e-tests:
+    name: Run E2E Tests
+    runs-on: ubuntu-latest
+
+    services:
+      api-solid-pg:
+        image: bitnami/postgresql:latest
+        ports:
+          - 5432:5432
+        environment:
+          - POSTGRES_USER: docker
+          - POSTGRES_PASSWORD: docker
+          - POSTGRES_DB: apisolid
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '22'
+          cache: 'npm'
+      - run: npm ci # Instala as dependências do projeto sem perguntar ou alterar o package.json
+        env:
+          DATABASE_URL: "postgresql://fake:fake@localhost:5432/fake?schema=public"
+
+      - run: npm run test:e2e
+        env:
+          JWT_SECRET: "1234567890"
+          DATABASE_URL: "postgresql://docker:docker@localhost:5432/apisolid?schema=public"
