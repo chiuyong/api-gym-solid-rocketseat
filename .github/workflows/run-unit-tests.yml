@@ -13,4 +13,7 @@ jobs:
           node-version: '22'
           cache: 'npm'
       - run: npm ci # Instala as dependências do projeto sem perguntar ou alterar o package.json
-      - run: npm run test:unitary
+        env:
+          DATABASE_URL: "postgresql://fake:fake@localhost:5432/fake?schema=public"
+
+      - run: npm run test
