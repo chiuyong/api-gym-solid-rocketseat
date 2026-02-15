@@ -17,7 +17,8 @@
     "test:e2e:watch": "vitest --project e2e",
     "test:coverage": "vitest run --coverage",
     "test:ui": "vitest --ui",
-    "eslint:fix": "eslint --ext .js,.ts src --fix"
+    "eslint:fix": "eslint --ext .js,.ts src --fix",
+    "postinstall": "prisma generate"
   },
   "keywords": [],
   "author": "",
